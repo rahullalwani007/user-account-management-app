@@ -1,0 +1,7 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+psycopg2-binary==2.9.9  # For PostgreSQL. Use mysqlclient for MySQL.
+python-dotenv==1.0.0
+Werkzeug==3.0.1         # For password hashing (often a Flask dependency)
+Flask-Migrate==4.0.5    # Optional: for database migrations
+gunicorn==21.2.0        # WSGI server for local testing/some deployments

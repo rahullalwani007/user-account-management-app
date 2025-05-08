@@ -1,0 +1,75 @@
+# serverless.yml
+service: user-account-api
+
+
+
+provider:
+  name: aws
+  runtime: python3.9 # Choose a supported Python runtime
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1 # Change to your preferred AWS region
+  deploymentBucket:
+    name: rahul-sls-deployments-eu-north-1
+  httpApi:
+    cors: true
+  environment:
+    DATABASE_URL: ${ssm:/user-service/dev/database_url, env:DATABASE_URL}
+    SECRET_KEY: ${ssm:/user-service/dev/secret_key, env:SECRET_KEY}
+
+    # If not using SSM, you can directly put them here or use .env files (less secure for secrets)
+    # DATABASE_URL: "postgresql://USER:PASS@HOST:PORT/DB"
+    # SECRET_KEY: "your_lambda_secret_key"
+
+  # Optional: VPC configuration if your RDS instance is not publicly accessible
+  # vpc:
+  #   securityGroupIds:
+  #     - sg-xxxxxxxxxxxxxxxxx # Your Lambda security group
+  #   subnetIds:
+  #     - subnet-xxxxxxxxxxxxxxxxx # Subnets in your VPC where RDS is accessible
+  # iam: # Optional: Define specific IAM roles if needed
+  #   role: arn:aws:iam::YOUR_ACCOUNT_ID:role/YourLambdaExecutionRole
+
+functions:
+  api:
+    handler: wsgi_handler.handler # We'll use serverless-wsgi to handle Flask app
+    events:
+      - httpApi: # Using HTTP API Gateway (cheaper, faster)
+          path: /{proxy+}
+          method: any
+      # Or, for REST API Gateway:
+      # - http:
+      #     path: /{proxy+}
+      #     method: any
+      #     cors: true
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+
+custom:
+  wsgi:
+    app: wsgi.app # Points to your Flask app instance (filename.variable_name)
+    packRequirements: false # We use serverless-python-requirements for this
+  pythonRequirements:
+    dockerizePip: non-linux # or true if you have issues with native compilation
+    zip: true
+    layer: true # Recommended: package dependencies in a Lambda Layer
+    # usePoetry: false
+    # usePipenv: false
+    # fileName: requirements.txt
+
+package:
+  individually: false # Or true if you have multiple functions with different deps
+  exclude:
+    - .env
+    - .gitignore
+    - .git/**
+    - venv/**
+    - node_modules/**
+    - tests/**
+    - README.md
+    # Add other files/folders to exclude from the deployment package
+  include:
+    - app/**
+    - wsgi.py
+    # requirements.txt is handled by serverless-python-requirements

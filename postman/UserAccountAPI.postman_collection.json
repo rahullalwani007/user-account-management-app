@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "YOUR_UNIQUE_COLLECTION_ID",
+		"name": "User Account API",
+		"description": "Collection for testing the Flask User Account CRUD API (Create, Read, Update, Delete)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "YOUR_EXPORTER_ID"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test.user@example.com\",\n    \"first_name\": \"Test\",\n    \"last_name\": \"User\",\n    \"password\": \"SecurePassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Creates a new user account. Requires email, first_name, last_name, and password."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Retrieves a list of all registered users."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves details for a single user specified by their ID. Set the `userId` collection variable after creating a user."
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"UpdatedFirstName\",\n    \"last_name\": \"UpdatedLastName\",\n    \"email\": \"updated.user@example.com\",\n    \"password\": \"NewOptionalPassword456\" \n    \n    // Only include fields you want to update.\n    // Leave password blank or omit it entirely if you don't want to change it.\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				},
+				"description": "Updates details for an existing user specified by their ID. Set the `userId` collection variable after creating a user. Only include fields you want to change in the body."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"{{userId}}"
+					]
+				},
+				"description": "Deletes a user specified by their ID. Set the `userId` collection variable after creating a user."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://d7snd8x1k9.execute-api.eu-north-1.amazonaws.com/api",
+			"type": "string",
+			"description": "Base URL for the API. Change to http://localhost:5000/api for local testing."
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string",
+			"description": "ID of the user to target for Get/Update/Delete requests. Populate this after running Create User."
+		}
+	]
+}

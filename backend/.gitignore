@@ -1,0 +1,84 @@
+# --- Python ---
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# --- Virtual Environment ---
+# Exclude virtual environment folders typically named 'venv', 'env', '.venv', etc.
+venv/
+env/
+.venv/
+ENV/
+*/venv/
+*/env/
+*/.venv/
+*/ENV/
+
+# --- Serverless Framework ---
+# Exclude Serverless Framework build artifacts and state
+.serverless/
+.sls-dev-cache/
+.serverless_plugins/
+
+# --- Secrets ---
+# Exclude environment variable files containing secrets
+.env
+*.env.*
+!.env.example # Important: DO NOT ignore example files
+
+# --- IDE / Editor Files ---
+# Visual Studio Code
+.vscode/
+# PyCharm / IntelliJ
+.idea/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+# Atom
+.atom/
+# Eclipse
+.project
+.pydevproject
+.settings/
+
+# --- Operating System Files ---
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# --- Testing ---
+# Pytest cache
+.pytest_cache/
+# Coverage reports
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+
+# --- Database Files ---
+# Exclude local database files (e.g., SQLite) if used for testing/dev
+*.sqlite3
+*.db
+*.db-journal # SQLite journal file
+
+# --- Build / Distribution ---
+build/
+dist/
+*.egg-info/
+*.egg
+
+# --- Logs ---
+*.log
+logs/
+*.log.*
+
+# --- Other ---
+# Instance folder for Flask (sometimes used for local DBs or uploads)
+instance/
